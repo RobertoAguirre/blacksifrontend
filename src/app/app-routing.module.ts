@@ -31,7 +31,11 @@ const routes: Routes = [
   {
     path: 'confirmed-orders',
     loadChildren: () => import('./confirmed-orders/confirmed-orders.module').then( m => m.ConfirmedOrdersPageModule)
+  },  {
+    path: 'control-panel',
+    loadChildren: () => import('./control-panel/control-panel.module').then( m => m.ControlPanelPageModule)
   },
+
 
 
 ];

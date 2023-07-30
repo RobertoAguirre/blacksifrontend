@@ -1,0 +1,89 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Sidebar</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <div class="profile">
+      <!-- Profile picture and name -->
+      <ion-img src="path/to/profile-picture.jpg" alt="User Profile"></ion-img>
+      <p>User Name</p>
+    </div>
+    <ion-list>
+      <!-- Sidebar buttons -->
+      <ion-item>
+        <ion-label>Home</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Employees</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Settings</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Log Out</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-content id="main-content">
+  <!-- Main content -->
+  <ion-button expand="full" (click)="toggleSidebar()">(͡° ͜ʖ ͡°)</ion-button>
+  <div class="main-content">
+    <h2>Employees</h2>
+    <ion-list class="employee-list">
+      <!-- Employee cards with information -->
+      <ion-item class="employee-card" *ngFor="let employee of (employees$ | async)">
+        <ion-label>
+          <h3>{{ employee.firstName }} {{ employee.lastName }}</h3>
+          <p>Email: {{ employee.email }}</p>
+          <p>Phone: {{ employee.phoneNumber }}</p>
+          <p>Address: {{ employee.address }}</p>
+        </ion-label>
+        <ion-buttons slot="end">
+          <ion-button (click)="showEditEmployeeForm(employee)">Edit</ion-button>
+          <ion-button (click)="deleteEmployee(employee)">Delete</ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+    <!-- Add new employee button -->
+    <ion-button class="add-btn" (click)="showAddEmployeeForm()">Add New Employee</ion-button>
+  </div>
+
+  <!-- Add new employee form -->
+  <ion-card *ngIf="showAddForm || showEditForm">
+    <ion-card-header>
+      <ion-card-title>{{ showAddForm ? 'Add New Employee' : 'Edit Employee' }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">First Name</ion-label>
+          <ion-input [(ngModel)]="employee.firstName" placeholder="First Name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Last Name</ion-label>
+          <ion-input [(ngModel)]="employee.lastName" placeholder="Last Name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Phone Number</ion-label>
+          <ion-input [(ngModel)]="employee.phoneNumber" placeholder="Phone Number"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Address</ion-label>
+          <ion-input [(ngModel)]="employee.address" placeholder="Address"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input [(ngModel)]="employee.email" placeholder="Email"></ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-button (click)="saveEmployee()">{{ showAddForm ? 'Add' : 'Save' }}</ion-button>
+      <ion-button (click)="cancelForm()">Cancel</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+

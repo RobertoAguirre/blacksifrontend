@@ -34,5 +34,16 @@ export class AuthService {
       })
     );
   }
+
+  getEmployee(): Observable<any> {
+    const url = `${this.baseUrl}/driverList`; // Replace '/EmployeeInfo' with the appropriate API endpoint for Employee information
+    return this.http.get<any>(url).pipe(
+      tap((response) => console.log(response)), // Log the response
+      catchError((error) => {
+        console.log('Error fetching Employee information:', error); // Log any error
+        return throwError(error); // Rethrow the error
+      })
+    );
+  }
   
 }
