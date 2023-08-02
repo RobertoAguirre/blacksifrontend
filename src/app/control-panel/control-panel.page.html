@@ -38,6 +38,7 @@
       <ion-item class="employee-card" *ngFor="let employee of (employees$ | async)">
         <ion-label>
           <h3>{{ employee.firstName }} {{ employee.lastName }}</h3>
+          <p>ID: {{ employee.id }}</p>
           <p>Email: {{ employee.email }}</p>
           <p>Phone: {{ employee.phoneNumber }}</p>
           <p>Address: {{ employee.address }}</p>
@@ -78,6 +79,10 @@
         <ion-item>
           <ion-label position="stacked">Email</ion-label>
           <ion-input [(ngModel)]="employee.email" placeholder="Email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Password</ion-label>
+          <ion-input [(ngModel)]="employee.password" placeholder="Password"></ion-input>
         </ion-item>
       </ion-list>
       <ion-button (click)="saveEmployee()">{{ showAddForm ? 'Add' : 'Save' }}</ion-button>

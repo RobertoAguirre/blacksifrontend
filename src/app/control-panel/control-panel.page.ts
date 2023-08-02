@@ -51,46 +51,18 @@ export class ControlPanelPage implements OnInit {
 
   // Function to save or update employee details
   saveEmployee() {
-    if (this.showAddForm) {
-      // Add new employee to the list (Note: You may need to send this data to the backend as well)
-      this.authService.getEmployee().pipe(
-        tap((response) => (this.employees$ = response))
-      ).subscribe(() => {
-        // Clear the form and hide it after saving/updating
-        this.employee = {};
-        this.showAddForm = false;
-        this.showEditForm = false;
-      });
-    } else if (this.showEditForm) {
-      // Update employee details in the list (Note: You may need to send this data to the backend as well)
-      this.authService.getEmployee().pipe(
-        tap((response) => (this.employees$ = response))
-      ).subscribe(() => {
-        this.employees$.subscribe((employees) => {
-          const index = employees.findIndex((emp) => emp.id === this.employee.id);
-          if (index !== -1) {
-            employees[index] = { ...this.employee };
-          }
-        });
-
-        // Clear the form and hide it after saving/updating
-        this.employee = {};
-        this.showAddForm = false;
-        this.showEditForm = false;
-      });
-    }
+    this.authService.createEmployee(this.employee).subscribe((response) => {
+      // Reload the employee list after successful creation
+      this.loadEmployees();
+      this.cancelForm(); // Clear the form and hide it after saving
+    });
   }
 
   // Function to delete an employee
   deleteEmployee(employee: any) {
-    this.employees$.subscribe((employees) => {
-      const index = employees.findIndex((emp) => emp.id === employee.id);
-      if (index !== -1) {
-        employees.splice(index, 1);
-        this.employees$ = this.authService.getEmployee().pipe(
-          tap((response) => (this.employees$ = response))
-        );
-      }
+    this.authService.deleteEmployee(employee.id).subscribe(() => {
+      // Reload the employee list after successful deletion
+      this.loadEmployees();
     });
   }
 

@@ -45,5 +45,25 @@ export class AuthService {
       })
     );
   }
+
+  createEmployee(employeeData: any): Observable<any> {
+    const url = `${this.baseUrl}/add`; // Replace '/add' with the appropriate API endpoint for adding employees
+    return this.http.post<any>(url, employeeData).pipe(
+      catchError((error) => {
+        console.log('Error creating employee:', error); // Log any error
+        return throwError(error); // Rethrow the error
+      })
+    );
+  }
+
+  deleteEmployee(employeeId: string): Observable<any> {
+    const url = `${this.baseUrl}/deleteDriver/${employeeId}`; // Replace '/deleteDriver/:id' with the appropriate API endpoint for deleting employees
+    return this.http.delete<any>(url).pipe(
+      catchError((error) => {
+        console.log('Error deleting employee:', error); // Log any error
+        return throwError(error); // Rethrow the error
+      })
+    );
+  }
   
 }
