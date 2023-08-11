@@ -58,9 +58,17 @@ export class ControlPanelPage implements OnInit {
     });
   }
 
+  updateEmployee() {
+    this.authService.updateEmployee(this.employee._id, this.employee).subscribe((response) => {
+      // Reload the employee list after successful update
+      this.loadEmployees();
+      this.cancelForm(); // Clear the form and hide it after updating
+    });
+  }
+
   // Function to delete an employee
   deleteEmployee(employee: any) {
-    this.authService.deleteEmployee(employee.id).subscribe(() => {
+    this.authService.deleteEmployee(employee._id).subscribe(() => {
       // Reload the employee list after successful deletion
       this.loadEmployees();
     });

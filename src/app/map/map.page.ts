@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router  } from '@angular/router';
 declare var google: any;
 
 @Component({
@@ -9,15 +10,30 @@ declare var google: any;
 export class MapPage implements OnInit {
   private directionsService: any;
   map: any;
-  private currentPositionMarker: any;
+  waypoints: any[] = [];
   private directionsRenderer: any;
-  private waypoints: any[] = [];
+  private currentPositionMarker: any;
   private currentLocationInterval: any;
   estimatedTravelTimes: string[] = [];
+  selectedWaypoint: string;
+
+  constructor(
+    private activatedRoute: ActivatedRoute, // Inject ActivatedRoute
+    private router: Router // Inject Router
+  ) {}
 
 
   ngOnInit() {
     this.initializeMap();
+  
+    // Retrieve waypoints from route state
+    this.activatedRoute.queryParams.subscribe(params => {
+      const state = this.router.getCurrentNavigation()?.extras.state;
+      if (state && state['waypoints']) {  // Access 'waypoints' using square brackets
+        this.waypoints = state['waypoints'];  // Access 'waypoints' using square brackets
+        this.calculateAndDisplayRoute();
+      }
+    });
   }
 
   public initializeMap() {
@@ -85,9 +101,9 @@ export class MapPage implements OnInit {
 
   private calculateAndDisplayRoute() {
     const directionsRequest = {
-      origin: this.waypoints[0]?.location,
-      destination: this.waypoints[this.waypoints.length - 1]?.location,
-      waypoints: this.waypoints.slice(1, -1),
+      origin: this.waypoints[0],
+      destination: this.waypoints[this.waypoints.length - 1],
+      waypoints: this.waypoints.slice(1, -1).map(waypoint => ({ location: waypoint, stopover: true })),
       optimizeWaypoints: true,
       travelMode: 'DRIVING',
     };
@@ -147,4 +163,6 @@ export class MapPage implements OnInit {
       });
     }
   }
+
+  
 }
