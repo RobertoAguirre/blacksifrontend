@@ -39,11 +39,6 @@ export class OrdersPage implements OnInit {
     return totalPrice.toFixed(2);
   }
 
-  confirm() {
-    // Navigate to confirmed-orders page
-    this.router.navigate(['/confirmed-orders']);
-  }
-
 
   createRoute() {
     const selectedCustomers = this.customers.filter(customer => customer.selected);
@@ -51,6 +46,8 @@ export class OrdersPage implements OnInit {
       const address = customer.customer.default_address.address;
       const num = customer.customer.default_address.number;
       const locality = customer.customer.default_address.locality;
+      const currLocation = `${address}, ${num}, ${locality} Chihuahua`;
+      localStorage.setItem('selectedLocation', currLocation);
       return `${address}, ${num}, ${locality}`;
     });
 

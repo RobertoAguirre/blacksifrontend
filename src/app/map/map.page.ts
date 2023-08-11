@@ -8,6 +8,7 @@ declare var google: any;
   styleUrls: ['./map.page.scss'],
 })
 export class MapPage implements OnInit {
+  public currLocation: string;
   private directionsService: any;
   map: any;
   waypoints: any[] = [];
@@ -25,7 +26,8 @@ export class MapPage implements OnInit {
 
   ngOnInit() {
     this.initializeMap();
-  
+    this.currLocation = localStorage.getItem('selectedLocation');
+    alert(this.currLocation);
     // Retrieve waypoints from route state
     this.activatedRoute.queryParams.subscribe(params => {
       const state = this.router.getCurrentNavigation()?.extras.state;
@@ -34,6 +36,7 @@ export class MapPage implements OnInit {
         this.calculateAndDisplayRoute();
       }
     });
+
   }
 
   public initializeMap() {
